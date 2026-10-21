@@ -2286,6 +2286,7 @@ export default class Actor5e extends SystemDocumentMixin(Actor) {
     this._getRestHitPointRecovery(config, result);
     this._getRestResourceRecovery(config, result);
     this._getRestSpellRecovery(config, result);
+    this._getRestGlyphRecovery(config, result);
     await this._getRestItemUsesRecovery(config, result);
 
     result.dhp = result.deltas.hitPoints;
@@ -2534,6 +2535,20 @@ export default class Actor5e extends SystemDocumentMixin(Actor) {
       if ( !types.has(slot.type) ) continue;
       result.updateData[`system.spells.${key}.value`] = slot.max;
     }
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Recovers expended glyph slots, for rest types that have `recoverGlyphSlots` set in `CONFIG.DND5E.restTypes`.
+   * @param {RestConfiguration} [config={}]
+   * @param {RestResult} [result={}]           Rest result being constructed.
+   * @protected
+   */
+  _getRestGlyphRecovery(config={}, result={}) {
+    if ( !CONFIG.DND5E.restTypes[config.type]?.recoverGlyphSlots ) return;
+    if ( !this.system.attributes?.insight?.glyphs?.spent ) return;
+    result.updateData["system.attributes.insight.glyphs.spent"] = 0;
   }
 
   /* -------------------------------------------- */

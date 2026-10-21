@@ -309,6 +309,7 @@ export default class CreatureTemplate extends CommonTemplate {
   /** @inheritDoc */
   getRollData({ deterministic=false }={}) {
     const data = super.getRollData({ deterministic });
+    data.ins = this.attributes.insight?.value ?? 0;
     data.classes = {};
     data.subclasses = {};
     for ( const [identifier, cls] of Object.entries(this.parent.classes) ) {

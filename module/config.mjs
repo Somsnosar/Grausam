@@ -2928,6 +2928,7 @@ DND5E.restTypes = {
     activationPeriods: ["longRest"],
     recoverHitDice: true,
     recoverHitPoints: true,
+    recoverGlyphSlots: true,
     recoverPeriods: ["lr", "sr"],
     recoverSpellSlotTypes: new Set(["spell", "pact"]),
     recoverTemp: true,

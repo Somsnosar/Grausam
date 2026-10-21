@@ -91,7 +91,18 @@ export default class AttributesFields {
       }, { label: "DND5E.Concentration" }),
       loyalty: new SchemaField({
         value: new NumberField({ integer: true, min: 0, max: 20, label: "DND5E.Loyalty" })
-      })
+      }),
+      insight: new SchemaField({
+        value: new NumberField({
+          required: true, nullable: false, integer: true, min: 0, initial: 0, label: "DND5E.Insight.Label",
+          hint: "DND5E.Insight.Hint"
+        }),
+        glyphs: new SchemaField({
+          spent: new NumberField({
+            required: true, nullable: false, integer: true, min: 0, initial: 0, label: "DND5E.Insight.Glyph.Spent"
+          })
+        }, { label: "DND5E.Insight.Glyph.Label" })
+      }, { label: "DND5E.Insight.Label" })
     };
   }
 
@@ -247,6 +258,24 @@ export default class AttributesFields {
     const ability = this.abilities?.[abilityId] || {};
     const bonus = simplifyBonus(concentration.bonuses.save, rollData);
     concentration.save = (ability.save?.value ?? 0) + bonus;
+  }
+
+  /* -------------------------------------------- */
+
+  /**
+   * Prepare derived Insight values: glyph save DC, glyph slot maximum, and glyph slots remaining.
+   * Insight is not an ability score: it starts at 0, has no modifier, and is not capped by dnd5e's ability limits.
+   * @this {CharacterData|NPCData}
+   */
+  static prepareInsight() {
+    const insight = this.attributes.insight;
+    // Active effects may push the value out of range, so normalize it after effects have been applied.
+    insight.value = Math.max(0, Math.floor(Number(insight.value) || 0));
+    const glyphs = insight.glyphs;
+    glyphs.dc = 10 + insight.value;
+    glyphs.max = insight.value;
+    glyphs.spent = Math.clamp(glyphs.spent, 0, glyphs.max);
+    glyphs.value = glyphs.max - glyphs.spent;
   }
 
   /* -------------------------------------------- */

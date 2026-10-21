@@ -227,6 +227,7 @@ export default class CharacterData extends CreatureTemplate {
     this.prepareTools({ rollData });
     AttributesFields.prepareArmorClass.call(this, rollData);
     AttributesFields.prepareConcentration.call(this, rollData);
+    AttributesFields.prepareInsight.call(this);
     AttributesFields.prepareEncumbrance.call(this, rollData);
     AttributesFields.prepareInitiative.call(this, rollData);
     AttributesFields.prepareMovement.call(this, rollData);

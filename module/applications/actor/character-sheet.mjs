@@ -567,6 +567,10 @@ export default class CharacterActorSheet extends BaseActorSheet {
       }, { left: [], right: [] });
     }
 
+    // Insight (inputs edit source values, not effect-modified values)
+    const insightSource = this.actor._source.system.attributes.insight;
+    context.insight = { value: insightSource.value, spent: insightSource.glyphs.spent };
+
     // Favorites
     context.favorites = await this._prepareFavorites();
 

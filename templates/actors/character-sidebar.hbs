@@ -124,6 +124,46 @@
                 </div>
             </div>
 
+            {{!-- Insight, Glyph DC, & Glyph Slots --}}
+            {{#with system.attributes.insight}}
+            <div class="lozenges insight">
+
+                {{!-- Insight --}}
+                <div class="lozenge" data-tooltip="DND5E.Insight.Hint">
+                    <div class="value">
+                        {{#if @root.editable}}
+                        <input type="text" name="system.attributes.insight.value" data-dtype="Number"
+                               value="{{ @root.insight.value }}" placeholder="0" class="uninput">
+                        {{else}}
+                        {{ value }}
+                        {{/if}}
+                    </div>
+                    <div class="label roboto-condensed-upper">{{ localize "DND5E.Insight.Label" }}</div>
+                </div>
+
+                {{!-- Glyph DC --}}
+                <div class="lozenge">
+                    <div class="value">{{ glyphs.dc }}</div>
+                    <div class="label roboto-condensed-upper">{{ localize "DND5E.Insight.Glyph.DC" }}</div>
+                </div>
+
+                {{!-- Glyph Slots --}}
+                <div class="lozenge" data-tooltip="DND5E.Insight.Glyph.SlotsHint">
+                    <div class="value">
+                        {{#if @root.editable}}
+                        <input type="text" name="system.attributes.insight.glyphs.spent" data-dtype="Number"
+                               value="{{ @root.insight.spent }}" placeholder="0" class="uninput">
+                        {{else}}
+                        {{ glyphs.spent }}
+                        {{/if}}
+                        <span class="separator">&sol;</span>
+                        <span class="max">{{ glyphs.max }}</span>
+                    </div>
+                    <div class="label roboto-condensed-upper">{{ localize "DND5E.Insight.Glyph.Spent" }}</div>
+                </div>
+            </div>
+            {{/with}}
+
             {{!-- Hit Points --}}
             <div class="meter-group">
                 <div class="label roboto-condensed-upper">
